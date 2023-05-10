@@ -1,0 +1,99 @@
+---
+seo:
+    title: Quickstart
+---
+
+import { OpenApiTryIt, Alert, ExplainStep, scrollToHeading } from '@redocly/developer-portal/ui';
+
+# Authenticating
+
+To get started with the API we first need to authenticate and get our initial
+access token. Access tokens are only valid for 15 minutes, but with a valid
+access token you can generate "Client" credentials which are longer lasting.
+
+Let's get a temporary access token by logging in with your username and password:
+
+:::info
+
+If you don't see a place to put your username and password, click the "Security" dropdown
+
+:::
+
+<OpenApiTryIt
+    definitionId="devAuth"
+    operationId="auth_jwt_client_token_basic_api_v1_auth_jwt_token_basic_get"
+    id="step1"
+    onResponse={({ request, response }) =>
+        {
+            console.log('request: ', request);
+            console.log('Access token: ', response.body.access_token);
+        }
+    }
+/>
+
+## Generate a Client ID and Client Secret
+
+Using the access token generated above, we can generate a permanent "Client ID" and "Client Secret".
+These are very much like a username and password pair, and should be treated as such (e.g. not shared).
+
+In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
+If you Access Token is not automatically populated, copy and paste it from the response above.
+
+<OpenApiTryIt
+    definitionId="devAuth"
+    operationId="clients_create_api_v1_clients__post"
+    id="step2"
+    needs={['step1']}
+    placeholder={( step1 ) => {
+        if (!step1) {
+            return (
+                <Alert variant="danger">
+                    Please log in above first. We will use the temporary access token to authenticate to this endpoint.
+                </Alert>
+            );
+        }
+    }}
+    securityDefaults={(step1) => { return ({
+        OAuth2PasswordBearer: {
+            token: {
+                access_token: step1.response.body.access_token
+            }
+        }
+    })}}
+/>
+
+
+## Use Client ID and Client Secret
+
+Now that we have a Client ID and Access Token we can use them to authenticate to the API - both programmatically
+and in the interactive docs. Let's use your new Client ID and Secret to run a simple API call.
+
+Expand the "Security" section below and select security scheme `OAuth2ClientBearer`,
+then paste in your Client ID and Client Secret (if not automatically populated).
+
+In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-canada-v3.0`.
+
+
+<OpenApiTryIt
+    definitionId="dev"
+    operationId="info_api_info_get"
+    id="step3"
+    needs={['step2']}
+    placeholder={( step2 ) => {
+        if (!step2) {
+            return (
+                <Alert variant="danger">
+                    Please generate a Client ID and Secret first. They will be used to authenticate to this endpoint.
+                </Alert>
+            );
+        }
+    }}
+    securityDefaults={(step2) => { return ({
+        OAuth2ClientBearer: {
+            client_id: step2.response.body.client_id,
+            client_secret: step2.response.body.client_secret
+        }
+    })}}
+/>
+
+If you see a response with item information, congratulations! You've successfully used the Climate Engine API
