@@ -5,7 +5,7 @@ SpatiaFi merges the power of geospatial data with the simplicity of a REST API.
 ## The Trouble with Geospatial Data
 
 ### It's Big
-No no, for real. The entire Earth is photographed an average of 7 times per day.
+No, for real. The entire Earth is photographed an average of 7 times per day.
 Just storing that data is a problem, let alone moving it or analysing it.
 
 ### It's Messy
