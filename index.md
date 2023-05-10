@@ -1,7 +1,3 @@
----
-title: Introduction
----
-
 # Introduction
 
 SpatiaFi merges the power of geospatial data with the simplicity of a REST API.

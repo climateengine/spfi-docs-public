@@ -1,4 +1,4 @@
-![SpatiaFi_small.png](SpatiaFi_small.png)
+![SpatiaFi_small.png](images/SpatiaFi_small.png)
 
 # SpatiaFi Public Documentation
 
