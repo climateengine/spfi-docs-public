@@ -46,17 +46,18 @@ Most GIS tools including ArcGIS and QGIS have built-in support for GeoJSON.
 **Web Based:**
 
 - [geojson.io](geojson.io) is a helpful website for creating and reading GeoJSON.
+- [geojsonlint.com](geojsonlint.com) can validate GeoJSON files.
 
 **Python Based:**
 
 - [python-geojson](https://python-geojson.readthedocs.io/en/latest/) can read and write GeoJSON format.
 - [GeoPandas](https://geopandas.org/en/stable/) can operate with geospatial data within a Pandas dataframe.
--
+- [Folium](https://python-visualization.github.io/folium/) can create interactive maps from GeoJSON data.
 
 ## Date Specification
 
 Many API endpoints can take an optional date or date range to filter results.
-Dates or (datetimes) can be expressed using an [RFC 3339](https://tools.ietf.org/html/rfc3339)
+Dates or (`datetime`) can be expressed using an [RFC 3339](https://tools.ietf.org/html/rfc3339)
 timestamp, or a simple date string (see below).
 
 ### Timezones

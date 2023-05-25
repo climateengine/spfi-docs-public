@@ -34,6 +34,27 @@ If you have a suggestion for a new notebook, script, or other resource, please o
 
 All contributions must be made under the [MIT License](LICENSE).
 
+### Notebook Guidelines
+
+Jupyter Notebooks in this repository **must not have any cell outputs**.
+This is because the notebooks are run automatically as part of the build process, to ensure that they are up-to-date and error-free.
+Outputs should be stripped out before committing notebooks to the repository. This can be done with the following command:
+
+```bash
+nbstripout notebooks/*.ipynb
+```
+
+Alternatively, you can use the pre-commit hook described below.
+
+### nbdime
+
+While not required, we recommend installing [nbdime](https://nbdime.readthedocs.io/en/latest/) to help with notebook diffs.
+Then enable nbdime for git:
+
+```bash
+nbdime config-git --enable --global
+```
+
 ### Pre-Commit Hooks
 
 We use [pre-commit](https://pre-commit.com/) to run code formatting and linting before commits are made.
@@ -48,17 +69,11 @@ pre-commit install
 
 Jupyter Notebooks must pass the following pre-commit hooks:
 
-- `black` - Python code formatter
-- `flake8` - Python code linter
 - `nbstripout` - Remove notebook outputs before committing
+- `black` - Python code formatter
 - `isort` - Python import sorter
-- `nbqa` - Run `black`, `flake8`, and `isort` on notebooks
-- `prettier` - Code formatter for markdown and other languages
-- `markdownlint` - Markdown linter
-- `yapf` - Python code formatter
-- `pyupgrade` - Python code upgrader
-- `pylint` - Python code linter
--
+- `ruff` - Python linter and formatter
+- `mdformat` - Markdown linter
 
 ## License
 

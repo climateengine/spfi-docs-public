@@ -1,7 +1,3 @@
-______________________________________________________________________
-
-## seo: title: Authentication
-
 # Authentication
 
 Authentication is OAuth2. Because it is standardized, most languages will

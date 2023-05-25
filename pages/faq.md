@@ -1,8 +1,4 @@
-______________________________________________________________________
-
-## title: F.A.Q.
-
-# Frequently asked questions
+# Frequently Asked Questions
 
 ## How much does it cost?
 
