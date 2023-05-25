@@ -64,7 +64,7 @@ Therefore, all Python packages used in the notebooks must be installed in the no
 To install packages in a notebook, use the `%pip` magic command at the top of the notebook.
 A single `%pip` command can be used to install multiple packages:
 
-```python
+```
 %pip install <package1> <package2> ...
 ```
 
@@ -73,6 +73,13 @@ Before being published on the SpatiaFi API documentation site, the notebooks mus
 [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-scipy-notebook).
 This image includes many common Python packages used for scientific computing, but notably does not include GDAL or
 other geospatial packages.
+
+To test that a notebook runs successfully in the `jupyter/scipy-notebook` image, run the following command:
+
+```bash
+cd notebooks
+docker run --rm -it -v "${PWD}":/home/jovyan --entrypoint bash jupyter/scipy-notebook -c "pip install nbmake && pytest --nbmake <my-notebook>.ipynb"
+```
 
 #### No Cell Outputs
 
