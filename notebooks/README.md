@@ -9,7 +9,9 @@
 
 ______________________________________________________________________
 
-# Example Notebooks
+## 🤓 Tutorial Notebooks
 
 This directory contains example notebooks that demonstrate how to use the SpatiaFi API.
 You are welcome to use these notebooks as starting points for your own projects.
+
+**⭐ These notebooks are automatically published to the Tutorial section of the SpatiaFi documentation.⭐**
