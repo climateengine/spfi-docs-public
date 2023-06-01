@@ -8,7 +8,20 @@ Utilizing widely-accepted formats like OpenAPI and JSON, SpatiaFi can easily be
 integrated into data processing pipelines, analytics workflows, and content management systems.
 The resultant climate insights can be leveraged for informed decision-making in a range of systems and processes.
 
-If you are new to geospaital data, we recommend reading the [Geospatial Data](/geospatial-data) page.
+💡 If you are new to geospaital data, we recommend reading the [Geospatial Data](/geospatial-data) page.
+
+## 📚 About These Docs
+
+This documentation is automatically generated from our
+[GitHub repository](https://github.com/climateengine/spfi-docs-public).  There you will find
+the source files for these docs, as well as the Juptyer notebooks used to generate the tutorials.
+You are welcome to use the notebooks and code snippets in your own projects.
+
+At the top of each page, you will find a link to the source code.
+
+If you find any errors or
+omissions, please [open an issue](https://github.com/climateengine/spfi-docs-public/issues/new) or
+[submit a pull request](https://github.com/climateengine/spfi-docs-public/pulls), and we will get it fixed. 🔧
 
 ## ✨ API Overview
 
