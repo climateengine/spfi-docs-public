@@ -1,42 +1,97 @@
-# API Data Formats
+# Data Formats
 
-## GeoJSON
+Geospatial data is often categorized into two main types: raster and vector.
+Raster and vector data can each be represented in a variety of formats, but SpatiaFi
+and other GIS systems most commonly
+use **GeoJSON for vector data** and **GeoTIFF for raster data**.
+
+### Raster Data
+
+Raster data is essentially a matrix of cells organized into rows and columns where each cell contains a value representing information. It's typically used for continuously changing data, such as elevation, temperature, or imagery. Each cell in the raster grid has a specific value, and the combination of these cells represents the complete image or spatial surface.
+
+In the context of geospatial analysis, raster data can be a digital aerial photograph with pixels as cells, a scanned map, or even a matrix of regularly-spaced observation points. Satellite images and digital elevation models (DEMs) are common examples of geospatial raster data.
+
+### Vector Data
+
+Vector data, on the other hand, is used to represent discrete geographic features using points, lines, and polygons. Each point, line, or polygon represents a specific feature on the Earth's surface, and these features are defined by their coordinates.
+
+- Points: Defined by a single x, y coordinate. Common examples could include the location of a city or a tree.
+- Lines: Defined by a set of ordered x, y coordinates. They typically represent linear features such as roads or rivers.
+- Polygons: Defined by a set of ordered x, y coordinates where the first and last coordinate are the same, forming a closed shape. They usually represent areas such as country boundaries or a city's limits.
+
+Vector data is often used for features that have clear boundaries or distinct locations, such as buildings, roads, or political boundaries.
+
+In summary, raster and vector are two primary methods to represent geospatial data, each with their strengths. Raster is excellent for representing continuous phenomena and is often used with remotely sensed data, while vector is great for depicting discrete objects with precise boundaries and is often used in GIS applications.
+
+**Important:** SpatiaFi most commonly uses GeoJSON, a vector data format.
+
+## GeoJSON (Vector)
 
 [GeoJSON](geojson.org) is a format for encoding a variety of geographic data structures.
 It is based on JSON (JavaScript Object Notation), which is a lightweight data-interchange format that is easy
 for humans to read and write and easy for machines to parse and generate.
 
-A GeoJSON data structure contains a collection of features, each of which has a geometry
+A GeoJSON data structure contains one or more `Features`, each of which has a geometry
 (such as a point, line, or polygon) and properties (such as name, population, or area).
 
-If a GeoJSON has multiple features, then the JSON object must start with a single object with property,
-`type`, set to `FeatureCollection`.
+The most common GeoJSON `Feature` types are `Point`, and `Polygon`.
+A `Point` is a single coordinate. A `Polygon` is a closed shape with a list of coordinates.
 
-Here's an example of a simple GeoJSON FeatureCollection that contains a single point location:
+**Important:** GeoJSON coordinates are always in \[longitude, latitude\] order.
+
+### Examples
+
+#### Point
+
+Here is an example of a GeoJSON Point representing the location of a place with latitude 40.7128 and longitude -74.0060:
 
 ```json
 {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [102.0, 0.5]
-            },
-            "properties": {
-                "name": "Dinagat Islands"
-            }
-        }
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-74.0060, 40.7128]
+  },
+  "properties": {
+    "name": "New York"
+  }
+}
+
+```
+
+In the GeoJSON Point object above, "coordinates" is an array containing the longitude and latitude values.
+The "properties" object is optional and can hold any additional information.
+
+#### Polygon
+
+Here is an example of a GeoJSON Polygon representing a simple, square area:
+
+```json
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [-73.958, 40.8003],
+        [-73.9498, 40.7968],
+        [-73.9737, 40.7648],
+        [-73.9814, 40.7681],
+        [-73.958, 40.8003]
+      ]
     ]
+  },
+  "properties": {
+    "name": "Central Park"
+  }
 }
 ```
 
-This GeoJSON object contains a single feature, which is a point located at coordinates \[102.0, 0.5\]. The point has a single property, "name", which is set to "Dinagat Islands".
-You can use various GIS software and libraries to read, write and display GeoJSON files.
-
-- GeoJSON coordinates are in \[longitude, latitude\] order
-- GeoJSON is always in WGS84 projection
+In the GeoJSON Polygon object above, "coordinates" is an array of linear ring arrays
+(each defining a boundary of the polygon). Each linear ring is an array of points,
+with the first and last point being the same to close the polygon.
+This example polygon is a simple one with no holes, so there is only one linear ring in the
+"coordinates" array. The "properties" object can hold any additional information, similar to the Point example.
 
 ### Useful Tools
 
@@ -53,6 +108,16 @@ Most GIS tools including ArcGIS and QGIS have built-in support for GeoJSON.
 - [python-geojson](https://python-geojson.readthedocs.io/en/latest/) can read and write GeoJSON format.
 - [GeoPandas](https://geopandas.org/en/stable/) can operate with geospatial data within a Pandas dataframe.
 - [Folium](https://python-visualization.github.io/folium/) can create interactive maps from GeoJSON data.
+
+## GeoTiff (Raster)
+
+GeoTIFF is a powerful public domain metadata standard that allows georeferencing information to be embedded within a TIFF (Tagged Image File Format) file. The primary purpose of GeoTIFF is to include geographic information within an image file, which can be used for various geospatial applications.
+
+As an extension of the TIFF format, a GeoTIFF file can be viewed as a regular image file, displaying the visual content of the file. What makes GeoTIFF unique and useful for geospatial applications, however, is the additional embedded georeferencing metadata. This metadata may include details such as the map projection, coordinate systems, and datum, which aligns the image to its geographical position on the earth's surface.
+
+By using GeoTIFF, geospatial data and images can be shared and seamlessly integrated into Geographic Information System (GIS) platforms, enabling powerful analysis and visualization capabilities. This interoperability makes GeoTIFF a popular choice for many professionals working in fields like cartography, remote sensing, and land surveying, among others.
+
+For example, satellite imagery, aerial photography, and even scanned maps can be saved in the GeoTIFF format, preserving spatial information for use in software systems that support georeferencing. These capabilities have opened up a wide range of possibilities for spatial analysis, data sharing, and map creation.
 
 ## Date Specification
 

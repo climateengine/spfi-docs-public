@@ -1,47 +1,63 @@
-# Introduction
+# 🌐 Introduction
 
-SpatiaFi merges the power of geospatial data with the simplicity of a REST API.
+SpatiaFi is a platform that combines geospatial data processing with a REST API.
+It's designed to take in a substantial amount of location data and provide climate-related insights
+through an accessible API.
 
-## The Trouble with Geospatial Data
+Utilizing widely-accepted formats like OpenAPI and JSON, SpatiaFi can easily be
+integrated into data processing pipelines, analytics workflows, and content management systems.
+The resultant climate insights can be leveraged for informed decision-making in a range of systems and processes.
 
-### It's Big
+If you are new to geospaital data, we recommend reading the [Geospatial Data](/geospatial-data) page.
 
-No, for real. The entire Earth is photographed an average of 7 times per day.
-Just storing that data is a problem, let alone moving it or analysing it.
+## ✨ API Overview
 
-### It's Messy
+⏱ **If you would like to get started with the API immediately, see the [Quickstart](/quickstart) guide.**
 
-Good news is that the data is mostly unusable?
-The atmosphere scatters light (the sky is blue!), distorts images (mirages!),
-and blocks your view (clouds!)
+The API is organized into the following sections:
 
-The camera is also 300,000km away and moving 1000 km/h, and the subject (the Earth)
-is spinning at a similar speed.
+- **Dataset Overview** - These endpoints provide information about the datasets available through the API.
+  Metadata provided includes the dataset name, description, and the geographic area covered.
+  Here you will also find endpoints for statistics covering the _entire_ dataset. Generally, these endpoints
+  cannot be filtered to a specific location or region of interest.
+- **Spatial Statistics** - These are the most powerful endpoints provide statistics about a dataset
+  for a specific location or region of interest.  For example, you can request the average temperature
+  for a specific point, or the average risk of flooding for a specific region. These endpoints are
+  capable of returning data for a single point in time, or for a range of dates.
+- **Point Values** - These endpoints simplify the process of requesting data for a single point.
+- **Crop Dataset** - These endpoints provide image data for a specific location or region of interest.
+  Using these endpoints, you can request a map of the average temperature for a specific region.
+- **Search** - These endpoints provide a way to search for datasets by name, description, or location.
 
-### It's Unusable
+### Authentication
 
-Certainly unusable in its raw format. The sensors from satellites generally
-don't give you the data you're looking for. These are pieces of highly specific
-scientific equipment that often view light waves *outside* the visible light spectrum.
+Authentication is based off of OAuth 2.0. Because it is standardized, most languages will
+have an authentication library that should be used instead of manual interaction.
+For Python, we recommend the library [Authlib](https://docs.authlib.org/en/latest/).
 
-These aren't family photos taken by your Mom's iPad.
+🔑 **Using the API requires authentication. Test credentials can be obtained by [contacting us](https://spatiafi.com/contact/).**
 
-## Solving Geospatial Data
+See the [Authentication tutorial](/tutorials/authentication) for more information, and examples in Python.
 
-So how does Climate Engine go about solving these issues?
+### Request Format
 
-### Focus on What Matters
+A request is generally made up of a geographic location, and a dataset of interest.
+Some endpoints accept a latitude and longitude (via `GET`) when requesting data for
+a single point, but most endpoints require a GeoJSON object (via `POST`).
 
-The API is focused on delivering insights around what *specifically* matters to
-you or your business.
+After familiarizing yourself with the API, it is
+highly recommended to use a library to handle creating the GeoJSON objects and making requests.
 
-### Aggregate to Insights
+### Dataset Format
 
-### Standardize the API
+The data returned by the API is roughly divided into: **datasets** and **timeseries**.
 
-sdgzxcasdfvasdfafsdasdflkjlkj
-fasdf
-asdf
-asdf
-asdf
-ASDASDF
+**Datasets** represent data that is collected at or aggregated over a period of time, such as
+average temperature or precipitation for a single month. A dataset may be made from a single
+point in time, or (more commonly) is the result of aggregation and will have a start and end date.
+
+**Timeseries** represent data that is collected over time, such as temperature or precipitation and is
+made up of all **datasets** that fall within a given time period.
+
+Timeseries and dataset endpoints are structured similarly, and can return the same data, but
+using the timeseries endpoints is more efficient when requesting data for multiple dates.
