@@ -1,4 +1,4 @@
-# Data Formats
+# 🗺 Data Formats
 
 Geospatial data is often categorized into two main types: raster and vector.
 Raster and vector data can each be represented in a variety of formats, but SpatiaFi

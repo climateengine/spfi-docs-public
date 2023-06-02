@@ -1,3 +1,3 @@
-# Authentication
+# 🔒 Authentication
 
 Authentication is OAuth2.

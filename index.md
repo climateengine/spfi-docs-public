@@ -8,7 +8,7 @@ Utilizing widely-accepted formats like OpenAPI and JSON, SpatiaFi can easily be
 integrated into data processing pipelines, analytics workflows, and content management systems.
 The resultant climate insights can be leveraged for informed decision-making in a range of systems and processes.
 
-💡 If you are new to geospaital data, we recommend reading the [Geospatial Data](/geospatial-data) page.
+💡 If you are new to geospatial data, we recommend reading the [Geospatial Data](/geospatial-data) page.
 
 ## 📚 About These Docs
 
