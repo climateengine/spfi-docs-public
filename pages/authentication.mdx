@@ -1,0 +1,108 @@
+import { OpenApiTryIt, Alert, ExplainStep, scrollToHeading } from '@redocly/developer-portal/ui';
+
+# 🔒 Authentication
+
+Authentication to SpatiaFi API is done via OAuth 2.0. Due to the secure nature of OAuth 2.0,
+access tokens are short-lived and must be refreshed periodically.
+
+The [Quickstart](/pages/quickstart) guide gave an example of generating an access token using
+your username and password, but because this requires periodically transmitting your password,
+it is **not recommended for production use**.
+
+This module will walk you through the process of generating a permanent "Client ID" and "Client Secret"
+which can be used to generate access tokens without transmitting your password.
+
+In the following walkthrough, we will:
+  1. Generate a temporary (~15 minute) access token using your username and password.
+  2. Use that access token to generate permanent _App Credentials_ (a `client_id` and `client_secret` pair)
+  3. Use the App Credentials to generate a new access token.
+  4. Finally, we will use the new access token to access the SpatiaFi API.
+
+:::success Example Code
+
+We have provided example code for this walkthrough as a Jupyter Notebook.
+See the [App Authentication](/tutorial/app-authentication) tutorial for more details.
+
+:::
+
+## Generate a temporary Access Token
+
+In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
+Then, enter your username and password in the "Parameters" section.
+
+<OpenApiTryIt
+    definitionId="auth"
+    operationId="auth_jwt_client_token_basic_api_v1_auth_jwt_token_basic_get"
+    id="step1"
+    onResponse={({ request, response }) =>
+    {
+        console.log('request: ', request);
+        console.log('Access token: ', response.body.access_token);
+    }
+    }
+/>
+
+:::attention Attention
+
+Copy the access token from the response above, as we will use it in the next step.
+
+:::
+
+## Generate a Client ID and Client Secret
+
+Using the access token generated above, we can generate permanent _App Credentials_.
+Technically, these are called "Client Credentials" in OAuth 2.0, and consist of a `client_id` and `client_secret` pair.
+These are very much like a username and password pair, and should be treated as such.
+
+In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
+If you Access Token is not automatically populated, copy and paste it from the response above.
+
+<OpenApiTryIt
+    definitionId="auth"
+    operationId="clients_create_api_v1_clients__post"
+    id="step2"
+    needs={['step1']}
+    placeholder={( step1 ) => {
+        if (!step1) {
+            return (
+                <Alert variant="attention">
+                    Please log in above first. We will use the temporary access token to authenticate to this endpoint.
+                </Alert>
+            );
+        }
+    }}
+    securityDefaults={(step1) => { return ({
+        OAuth2PasswordBearer: {
+            token: {
+                access_token: step1.response.body.access_token
+            }
+        }
+    })}}
+/>
+
+:::warning Warning
+
+The `client_secret` returned above is only shown once, and cannot be retrieved again.
+Please copy and store it in a secure location.
+
+:::
+
+
+## Use Client ID and Client Secret
+
+Now that we have a `client_id` and `client_secret` pair, we can use them to generate a new access token,
+without transmitting your password (or `client_secret`).
+
+This is done by minting a new JSON Web Token or JWT using the `client_id` and securely
+signing it with the `client_secret`.
+This is a somewhat complex process to do manually, but we have provided example code in the
+[App Authentication](/tutorial/app-authentication) tutorial.
+
+...generate token using client_id and client_secret...
+
+
+## Use Access Token to access API
+
+Now that we have an access token, we can use it to access the SpatiaFi API.
+
+In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
