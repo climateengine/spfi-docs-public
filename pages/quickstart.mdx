@@ -22,6 +22,7 @@ For more advanced use cases, including authenticating from a program, see the
 
 Let's get an access token by logging in with your username and password.
 In the panel below, expand the "Security" section and enter your username and password.
+
 Then hit send!
 
 <OpenApiTryIt
@@ -38,12 +39,6 @@ Then hit send!
 
 If you see a response with an access token, congratulations! You've successfully authenticated to the SpatiaFi API 🎉
 
-:::attention Attention
-
-Copy the access token from the response above, as we will use it in the next step.
-
-:::
-
 ## Make an API Call
 
 Now that we have an Access Token we can use them to authenticate to the API.
@@ -51,19 +46,21 @@ Now that we have an Access Token we can use them to authenticate to the API.
 Let's make a call to the [/info](/api/#operation/info_api_info_get) endpoint to get information about
 the `ce-wildfire-risk-static-us-and-canada-v3.0` dataset.
 
-In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
-Then, enter your access token in the "Parameters" section.
 
-In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-canada-v3.0`.
+In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
+Then, enter your access token from above into the "Parameters" section.
+
+
+In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-canada-v3.0`. Then hit send!
 
 
 <OpenApiTryIt
     definitionId="spatiafi"
     operationId="info_api_info_get"
-    id="step3"
-    needs={['step2']}
-    placeholder={( step2 ) => {
-        if (!step2) {
+    id="step2"
+    needs={['step1']}
+    placeholder={( step1 ) => {
+        if (!step1) {
             return (
                 <Alert variant="attention">
                     Please generate an Access Token above. This will be used to authenticate to this endpoint.
@@ -82,5 +79,7 @@ In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-ca
 
 If you see a response with item information, congratulations! You've successfully used the SpatiaFi API 🎉
 
-Next, follow along with the [Tutorials](/pages/tutorials/) to learn how enrich your own data with SpatiaFi climate data,
-or check out the [API Reference](/api/) to learn more about the SpatiaFi API.
+---
+
+Next, follow along with the [Jupyter Notebook tutorials](/tutorials/) to learn how enrich your own data with SpatiaFi
+climate data, or check out the [API Reference](/api/) to learn more about the SpatiaFi API.

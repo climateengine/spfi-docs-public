@@ -29,8 +29,7 @@ tutorial.
 
 ## Generate a temporary Access Token
 
-In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
-Then, enter your username and password in the "Parameters" section.
+In the panel below, expand the "Security" section and enter your username and password. Then click "Send"!
 
 <OpenApiTryIt
     definitionId="auth"
@@ -44,11 +43,6 @@ Then, enter your username and password in the "Parameters" section.
     }
 />
 
-:::attention Attention
-
-Copy the access token from the response above, as we will use it in the next step.
-
-:::
 
 ## Generate a Client ID and Client Secret
 
@@ -57,8 +51,11 @@ Technically, these are called "Client Credentials" in OAuth 2.0, and consist of 
 These are very much like a username and password pair, and should be treated as such.
 
 
+
 In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
-If you Access Token is not automatically populated, copy and paste it from the response above.
+If you Access Token is not automatically populated, copy and paste it from the response above.  There is no need to
+enter anything in the "Body" section.
+
 
 <OpenApiTryIt
     definitionId="auth"
