@@ -6,13 +6,12 @@ The SpatiaFi API uses OAuth 2.0 for authentication. This means that you will nee
 to use the API. This guide will walk you through the steps to generate an access token and use it to make
 your first API call.
 
-One of the security features of OAuth 2.0 is that access tokens are short-lived and can be revoked at any time.
+One of the security features of OAuth 2.0 is that **access tokens are short-lived** and can be revoked at any time.
 This means that if your access token is compromised, you can simply request a new one and the old one will no longer
 work. This may be different from other services you've used, where you might have a single API key that never expires.
 
 :::info
-If you're following along with this guide and you get an "Access Denied" error, simply generate a new access token
-and try again.
+If your token expires and you get an "Access Denied" error, simply generate a new access token
 :::
 
 For more advanced use cases, including authenticating from a program, see the
@@ -41,18 +40,15 @@ If you see a response with an access token, congratulations! You've successfully
 
 ## Make an API Call
 
-Now that we have an Access Token we can use them to authenticate to the API.
+Now that we have an Access Token we can use them to authenticate to the API. Let's make a call to the
+[/info](/api/#operation/info_api_info_get) endpoint to get information about
+the `ce-wildfire-risk-static-us-and-canada-v3.0` dataset:
 
-Let's make a call to the [/info](/api/#operation/info_api_info_get) endpoint to get information about
-the `ce-wildfire-risk-static-us-and-canada-v3.0` dataset.
+  1. In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`,
+"Access Token Type" is set to `Bearer`, and enter your access token from above.
+  2. In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-canada-v3.0`.
 
-
-In the panel below, expand the "Security" section and ensure that "Security scheme" is set to `OAuth2PasswordBearer`.
-Then, enter your access token from above into the "Parameters" section.
-
-
-In the "Parameters" section, set `item_id` to `ce-wildfire-risk-static-us-and-canada-v3.0`. Then hit send!
-
+Then hit send!
 
 <OpenApiTryIt
     definitionId="spatiafi"
