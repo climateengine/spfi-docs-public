@@ -55,18 +55,30 @@ The notebooks in this repository are used for two purposes:
 
 Because of this, notebooks must follow a few strict guidelines:
 
-#### Python Packages in Notebooks
+#### Installing Packages in Notebooks
 
-The notebooks must be able to run in a fresh Jupyter environment such as [Google Colab](https://colab.research.google.com/)
+The notebooks must be able to run in a minimal Jupyter environment such as
+[Google Colab](https://colab.research.google.com/)
 or [Binder](https://mybinder.org/) without assuming that any additional Python packages are installed.
-Therefore, all Python packages used in the notebooks must be installed in the notebook itself.
+**Many geospaital Python packages such as GDAL, Cartopy, etc. are not pre-installed in these environments.**
 
-To install packages in a notebook, use the `%pip` magic command at the top of the notebook.
+To work around this, Python packages (and Ubuntu `apt` packages) used in the notebooks must be installed
+in the notebook itself.
+
+##### Installing Python Packages
+
+To install Python packages in a notebook, use the `%pip` magic command at the top of the notebook.
 A single `%pip` command can be used to install multiple packages:
 
 ```
 %pip install <package1> <package2> ...
 ```
+
+##### Installing Ubuntu Packages
+
+To install Ubuntu packages in a notebook, use the `!sudo apt install <package1>` command at the top of the notebook.
+
+#### Testing Notebooks
 
 Before being published on the SpatiaFi API documentation site, the notebooks must successfully run using the
 `jupyter/scipy-notebook` Docker image provided by
@@ -74,12 +86,14 @@ Before being published on the SpatiaFi API documentation site, the notebooks mus
 This image includes many common Python packages used for scientific computing, but notably does not include GDAL or
 other geospatial packages.
 
-To test that a notebook runs successfully in the `jupyter/scipy-notebook` image, run the following command:
+To test that a notebook runs successfully in the `jupyter/scipy-notebook` image,
+the [`test-notebook.sh`](test-notebook.sh) script has been provided.
 
 ```bash
-cd notebooks
-docker run --rm -it -v "${PWD}":/home/jovyan --entrypoint bash jupyter/scipy-notebook -c "pip install nbmake && pytest --nbmake <my-notebook>.ipynb"
+./test-notebook.sh notebooks/<notebook>.ipynb
 ```
+
+If `./test-notebook.sh` is run without any arguments, it will test all notebooks in the `notebooks/` directory.
 
 #### No Cell Outputs
 
