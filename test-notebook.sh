@@ -30,6 +30,7 @@ SPATIAFI_CRED=$(python -c "import json; import spatiafi; print(json.dumps(spatia
 SPATIAFI_CLIENT_ID=$(echo $SPATIAFI_CRED | jq -r '.client_id')
 SPATIAFI_CLIENT_SECRET=$(echo $SPATIAFI_CRED | jq -r '.client_secret')
 
+
 # Run docker container
 docker run --rm \
     -v $tmpdir:/src/notebooks \
