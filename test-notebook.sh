@@ -40,7 +40,7 @@ docker run --rm \
     --user root \
     --entrypoint /bin/bash \
     jupyter/scipy-notebook \
-    -c 'pip install nbmake && pytest -p no:cacheprovider --nbmake --overwrite /src/notebooks/*.ipynb'
+    -c 'sudo apt update; pip install nbmake papermill; ls -1 /src/notebooks/*.ipynb | xargs -L 1 papermill ; pytest -p no:cacheprovider --nbmake --overwrite /src/notebooks/*.ipynb'
 
 # If the last command failed, echo an error message
 if [ $? -ne 0 ]
