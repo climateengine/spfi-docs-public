@@ -50,7 +50,7 @@ For Python, we recommend the library [Authlib](https://docs.authlib.org/en/lates
 
 🔑 **Using the API requires authentication. Test credentials can be obtained by [contacting us](https://spatiafi.com/contact/).**
 
-See the [Authentication tutorial](/tutorials/authentication) for more information, and examples in Python.
+See the [Authentication tutorial](/tutorials/3-manual-app-authentication) for more information, and examples in Python.
 
 ### Request Format
 
