@@ -60,10 +60,10 @@ Because of this, notebooks must follow a few strict guidelines:
 The notebooks must be able to run in a minimal Jupyter environment such as
 [Google Colab](https://colab.research.google.com/)
 or [Binder](https://mybinder.org/) without assuming that any additional Python packages are installed.
-**Many geospaital Python packages such as GDAL, Cartopy, etc. are not pre-installed in these environments.**
+**Many geospatial Python packages such as GDAL, Cartopy, etc. are not pre-installed in these environments.**
 
-To work around this, Python packages (and Ubuntu `apt` packages) used in the notebooks must be installed
-in the notebook itself.
+To work around this, Python packages (and Ubuntu `apt` packages) used in the
+notebooks must be installed in the notebook itself.
 
 ##### Installing Python Packages
 

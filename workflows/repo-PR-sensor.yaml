@@ -1,0 +1,61 @@
+# This sensor monitors the `spfi-docs-public` for pull requests and triggers an
+# Argo workflow to ensure that the docs build.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: spfi-docs-public-PR-build # This should be unique across all Sensors.
+  namespace: argo
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: github
+      eventSourceName: github
+      eventName: github-climateengine
+      filters:
+        data:
+          # Type of Github event that triggered the delivery: [pull_request, push, issues, label, ...]
+          # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
+          - path: headers.X-Github-Event
+            type: string
+            value:
+              - pull_request
+          # Filter on the repository name (e.g. "climateengine/spfi-docs-public")
+          - path: body.repository.full_name
+            type: string
+            value:
+              - climateengine/spfi-docs-public
+          # Docs for the different actions can be found here: https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads?actionType=edited#pull_request
+          - path: body.action
+            type: string
+            value:
+              - opened
+              - edited
+              - reopened
+              - synchronize
+          # We only want to rerun on open PRs
+          - path: body.pull_request.state
+            type: string
+            value:
+              - open
+          # We only want to run against PRs that target main
+          - path: body.pull_request.base.ref
+            type: string
+            value: [main]
+
+  triggers:
+    - template:
+        name: spfi-docs-public
+        argoWorkflow:
+          operation: submit
+          source:
+            configmap:
+              name: spfi-docs-public-wf
+              key: spfi-docs-public-wf.yaml
+          parameters:
+            # Send the SHA of the commit to the Workflow.
+            - src:
+                dependencyName: github
+                dataKey: body.after # The SHA of the commit.
+              dest: spec.arguments.parameters.1.value

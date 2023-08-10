@@ -1,0 +1,194 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: spfi-docs-public-
+  namespace: argo
+spec:
+  serviceAccountName: argo-workflow
+  arguments:
+    parameters:
+      - name: repo-name
+        value: climateengine/spfi-docs-public
+      - name: commit-sha
+        value: ""
+  hooks:
+    exit:
+      templateRef:
+        name: github-templates
+        template: update-status
+      arguments:
+        parameters:
+          - name: repo-name
+            value: "{{workflow.parameters.repo-name}}"
+          - name: commit-sha
+            value: "{{workflow.parameters.commit-sha}}"
+          - name: status
+            value: "completed"
+          - name: conclusion
+            value: "{{workflow.status}}"
+          - name: failures
+            value: "{{workflow.failures}}"
+          - name: run-id
+            value: "{{=workflow.outputs.parameters['run-id'] != nil ? workflow.outputs.parameters['run-id'] : ''}}"
+  entrypoint: main
+  templates:
+    - name: main
+      dag:
+        tasks:
+          - name: github-status-in-progress
+            templateRef:
+              name: github-templates
+              template: update-status
+            arguments:
+              parameters:
+                - name: repo-name
+                  value: "{{workflow.parameters.repo-name}}"
+                - name: status
+                  value: "in_progress"
+                - name: commit-sha
+                  value: "{{workflow.parameters.commit-sha}}"
+          - name: checkout-spfi-docs-public
+            templateRef:
+              name: github-templates
+              template: clone
+            arguments:
+              parameters:
+                - name: repo-name
+                  value: climateengine/spfi-docs-public
+                - name: commit-sha
+                  value: "{{workflow.parameters.commit-sha}}"
+          - name: checkout-spfi-docs-build
+            templateRef:
+              name: github-templates
+              template: clone
+            arguments:
+              parameters:
+                - name: repo-name
+                  value: climateengine/spfi-docs-build
+                - name: branch
+                  value: main
+          - name: run-pre-commit-with-cache
+            templateRef:
+              name: run-pre-commit
+              template: run-pre-commit-with-cache
+            arguments:
+              artifacts:
+                - name: src
+                  from: "{{tasks.checkout-spfi-docs-public.outputs.artifacts.src}}"
+            dependencies:
+              - checkout-spfi-docs-public
+          - name: ls-notebooks
+            template: ls-notebooks
+            arguments:
+              artifacts:
+                - name: src
+                  from: "{{tasks.checkout-spfi-docs-public.outputs.artifacts.src}}"
+            dependencies:
+              - checkout-spfi-docs-public
+
+          # Run nbmake on each notebook from ls-notebooks
+          # This makes sure that the notebooks successfully run, and produce the expected output.
+          - name: nbmake-notebooks
+            template: nbmake-notebook
+            arguments:
+              parameters:
+                - name: notebook-filename
+                  value: "{{item}}"
+              artifacts:
+                - name: src
+                  from: "{{tasks.checkout-spfi-docs-public.outputs.artifacts.src}}"
+            withParam: "{{tasks.ls-notebooks.outputs.result}}"
+            dependencies:
+              - ls-notebooks
+
+    - name: ls-notebooks
+      script:
+        image: python:3.10
+        command: [python]
+        source: |
+          # List all .ipynb files in /src/notebooks
+          import os
+          import glob
+          import json
+
+          notebooks = glob.glob(os.path.join('src', 'notebooks', '*.ipynb'))
+          notebooks = [os.path.basename(notebook) for notebook in notebooks]
+          print(json.dumps(notebooks))
+      inputs:
+        artifacts:
+          - name: src
+            path: /src
+
+    - name: generate-tutorial-links
+      script:
+        image: bash
+        command: [bash]
+        source: |
+          set -eux -o pipefail
+
+          # Delete and recreate /src/tutorials
+          rm -rf /src/tutorials
+          mkdir -p /src/tutorials
+
+          # For every *.ipynb notebook in /src/notebooks, create a markdown file in /src/tutorials with a link to the notebook
+          for notebook in /src/notebooks/*.ipynb; do
+              notebook_name=$(basename $notebook)
+              notebook_name=${notebook_name%.*}
+              cat << EOF > /src/tutorials/${notebook_name}.md
+          # Automatically Generated!
+
+          This tutorial was automatically generated from a Jupyter notebook.
+          To view/edit the tutorial, see the notebook [${notebook_name}.ipynb](../notebooks/${notebook_name}.ipynb).
+
+          EOF
+          done
+      inputs:
+        artifacts:
+          - name: src
+            path: /src
+      outputs:
+        artifacts:
+          - name: src
+            path: /src
+
+    - name: nbmake-notebook
+      script:
+        image: jupyter/scipy-notebook
+        securityContext:
+          runAsUser: 0
+        command: [bash]
+        source: |
+          set -eux
+          sudo apt update
+          pip install papermill nbmake
+          # Run the notebook once with papermill to run "magic" commands. nbmake doesn't support these.
+          papermill --log-output "/src/notebooks/{{inputs.parameters.notebook-filename}}"
+          pytest -p no:cacheprovider --nbmake --overwrite "/src/notebooks/{{inputs.parameters.notebook-filename}}"
+        env:
+          - name: GRANT_SUDO
+            value: "yes"
+          - name: PYDEVD_DISABLE_FILE_VALIDATION
+            value: "1"
+          - name: NO_COLOR
+            value: "1"
+          - name: TERM
+            value: "xterm"
+          - name: SPATIAFI_CLIENT_ID
+            value: "1a48aaa9-0972-476e-a068-c1c83a857103"
+          - name: SPATIAFI_CLIENT_SECRET
+            value: "FiEwzLsOvBvnJN69zPDDkTxotyiAgamaJkVoH9i5mvw"
+      inputs:
+        artifacts:
+          - name: src
+            path: /src
+        parameters:
+          - name: notebook-filename
+      outputs:
+        artifacts:
+          - name: notebook
+            path: "/src/notebooks/{{inputs.parameters.notebook-filename}}"
+            archive:
+              none: {}
+            gcs:
+              bucket: ce-builder-artifacts
+              key: "{{workflow.name}}/notebooks/{{inputs.parameters.notebook-filename}}"
