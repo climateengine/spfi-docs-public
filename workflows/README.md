@@ -6,7 +6,7 @@ is used to automatically trigger builds when new commits are pushed to the repos
 - [spfi-docs-public-wf.yaml](spfi-docs-public-wf.yaml) - This is the `Workflow` definition.  Here you can define the steps to build. In its simplest form, it can call an existing `WorkflowTemplate`  (more on this later).
 - [repo-sensor.yaml](repo-sensor.yaml) - This defines the "Sensor" which will trigger the [spfi-docs-public-wf.yaml](spfi-docs-public-wf.yaml) `Workflow` when a new commit is pushed to the repository.
 - [kustomization.yaml](kustomization.yaml) - This is the `Kustomization` definition.  It helps deploy the `Workflow` and `Sensor` to the cluster.
-- [deploy-sensor.sh](delpoy-sensor.sh) - This is a helper script to deploy the `Workflow` and `Sensor` to the cluster.
+- [deploy-sensor.sh](deploy-sensor.sh) - This is a helper script to deploy the `Workflow` and `Sensor` to the cluster.
 - [submit-wf.sh](submit-wf.sh) - This is a helper script to submit the `Workflow` to the cluster. This can be run at any time to manually trigger a build.
 
 ## Workflow Templates
