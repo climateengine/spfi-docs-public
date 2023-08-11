@@ -12,7 +12,7 @@ is used to automatically trigger builds when new commits are pushed to the repos
 ## Workflow Templates
 
 There are a number of predefined `WorkflowTemplate`s. These are shared across
-all projects. These workflows are defined in a internal private repo.
+all projects. These workflows are defined in an internal private repo.
 
 This workflow runs a subset of what we run when building the docs when a PR is
 published against this repo.
