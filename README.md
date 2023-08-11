@@ -86,8 +86,10 @@ Before being published on the SpatiaFi API documentation site, the notebooks mus
 This image includes many common Python packages used for scientific computing, but notably does not include GDAL or
 other geospatial packages.
 
-To test that a notebook runs successfully in the `jupyter/scipy-notebook` image,
-the [`test-notebook.sh`](test-notebook.sh) script has been provided.
+To test that a notebook runs successfully in the `jupyter/scipy-notebook`
+image, the [`test-notebook.sh`](test-notebook.sh) script has been provided. To
+run this script, you must have [Docker](https://docs.docker.com/get-docker/)
+installed.
 
 ```bash
 ./test-notebook.sh notebooks/<notebook>.ipynb
@@ -116,6 +118,14 @@ Then enable nbdime for git:
 nbdime config-git --enable --global
 ```
 
+### Build Issues
+
+CI/CD workflows are defined in an [internal private repo](https://github.com/climateengine/spfi-docs-build/tree/main/workflows).
+
+We acknowledge that contributors may have a limited view of these builds. If
+this causes a problem for you please feel free to contact the maintainers of
+this project, and we'll be happy to help.
+
 ### Pre-Commit Hooks
 
 We use [pre-commit](https://pre-commit.com/) to run code formatting and linting before commits are made.
@@ -143,6 +153,4 @@ You are free to use the resources in this repository as starting points for your
 
 ## 🤳 Contact
 
-If you have any questions, please contact us at [support@spatiafi.com](mailto:support@spatiafi.com).
-
-asdfaSDC
+If you have any questions, please open a GitHub Issue or contact us at [support@spatiafi.com](mailto:support@spatiafi.com).
