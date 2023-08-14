@@ -128,8 +128,9 @@ this project, and we'll be happy to help.
 
 ### Pre-Commit Hooks
 
-We use [pre-commit](https://pre-commit.com/) to run code formatting and linting before commits are made.
-This ensures that all code in the repository is formatted consistently.
+We use [pre-commit](https://pre-commit.com/) to run code formatting and linting
+before commits are made. This ensures that all code in the repository is
+formatted consistently.
 
 Please install pre-commit before making any commits:
 
