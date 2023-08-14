@@ -149,8 +149,8 @@ Jupyter Notebooks must pass the following pre-commit hooks:
 
 ## 📄 License
 
-This repository is licensed under the [MIT License](LICENSE).
-You are free to use the resources in this repository as starting points for your own projects.
+This repository is licensed under the [MIT License](LICENSE). You are free to
+use the resources in this repository as starting points for your own projects.
 
 ## 🤳 Contact
 
