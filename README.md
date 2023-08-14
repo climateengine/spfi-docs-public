@@ -86,9 +86,10 @@ Before being published on the SpatiaFi API documentation site, the notebooks mus
 This image includes many common Python packages used for scientific computing, but notably does not include GDAL or
 other geospatial packages.
 
-To test that a notebook runs successfully in the `jupyter/scipy-notebook` image,
-the [`test-notebook.sh`](test-notebook.sh) script has been provided. To run this script, you must have
-[Docker](https://docs.docker.com/get-docker/) installed.
+To test that a notebook runs successfully in the `jupyter/scipy-notebook`
+image, the [`test-notebook.sh`](test-notebook.sh) script has been provided. To
+run this script, you must have [Docker](https://docs.docker.com/get-docker/)
+installed.
 
 ```bash
 ./test-notebook.sh notebooks/<notebook>.ipynb
