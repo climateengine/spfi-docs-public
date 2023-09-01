@@ -122,9 +122,7 @@ nbdime config-git --enable --global
 
 CI/CD workflows are defined in an [internal private repo](https://github.com/climateengine/spfi-docs-build/tree/main/workflows).
 
-We acknowledge that contributors may have a limited view of these builds. If
-this causes a problem for you please feel free to contact the maintainers of
-this project, and we'll be happy to help.
+We acknowledge that contributors may have a limited view of these builds. If this causes a problem for you please feel free to contact the maintainers of this project, and we'll be happy to help.
 
 ### Pre-Commit Hooks
 
